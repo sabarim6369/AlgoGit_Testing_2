@@ -1,0 +1,26 @@
+Here's a step-by-step explanation of the concept used in the given code:
+
+**Problem Statement:**
+The problem is to divide a given array of integers into `k` subarrays such that the maximum element in each subarray does not exceed a certain number `mid`. The goal is to find the minimum `mid` that satisfies this condition.
+
+**Code Explanation:**
+
+1. The code defines a class `Solution` with a function `ispossible` that takes three parameters: `mid`, `nums`, and `k`. `mid` is the potential maximum element in each subarray, `nums` is the array of integers, and `k` is the number of subarrays.
+2. The `ispossible` function initializes two variables: `count` to 1 (the number of subarrays) and `currsum` to 0 (the sum of the current subarray).
+3. The function then iterates through the array `nums` using a `for` loop. For each element `a` in the array:
+	* If `a` exceeds `mid`, the function returns `false`, indicating that it is not possible to divide the array into `k` subarrays with a maximum element not exceeding `mid`.
+	* If `currsum + a` exceeds `mid`, the function updates `currsum` to `a` and increments `count` (i.e., creates a new subarray).
+	* If `currsum + a` does not exceed `mid`, the function updates `currsum` to `currsum + a`. This is the key step, as it allows the function to check if the current subarray can be extended or not.
+4. The `ispossible` function returns `true` if the number of subarrays (`count`) is less than or equal to `k`, and `false` otherwise.
+5. The `splitArray` function takes two parameters: `nums` and `k`. It initializes three variables: `left` to the maximum element in `nums`, `right` to the sum of all elements in `nums`, and `minans` to the minimum possible answer (`INT_MAX`).
+6. The function then enters a binary search loop, which continues until `left` is less than or equal to `right`.
+7. In each iteration of the loop, the function calculates the midpoint `mid` of the range `[left, right]`.
+8. The function calls `ispossible` with `mid` as the maximum element in each subarray and checks if it is possible to divide the array into `k` subarrays with a maximum element not exceeding `mid`. If it is possible, the function updates `minans` to `mid` and sets `right` to `mid - 1`. If it is not possible, the function sets `left` to `mid + 1`.
+9. The function returns `minans`, which is the minimum `mid` that satisfies the condition.
+
+**Concept:**
+The concept used in this code is binary search, which is an efficient algorithm for finding an element in a sorted array or range. In this case, the binary search is used to find the minimum `mid` that satisfies the condition that the maximum element in each subarray does not exceed `mid`.
+
+The code uses a variation of the binary search algorithm called "bounded binary search," which is used when the search space is bounded by two values, `left` and `right`. In this case, the search space is bounded by the maximum element in the array (`left`) and the sum of all elements in the array (`right`).
+
+The code also uses a dynamic programming approach to solve the problem, as it iterates through the array and keeps track of the current sum and the number of subarrays. The `ispossible` function uses this information to check if it is possible to divide the array into `k` subarrays with a maximum element not exceeding `mid`.
