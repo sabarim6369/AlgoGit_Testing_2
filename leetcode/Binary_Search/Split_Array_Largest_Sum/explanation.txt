@@ -1,0 +1,29 @@
+Here's a step-by-step explanation of the concept used in the given code:
+
+**Problem Statement:**
+The problem is to find the minimum possible value that can be used to split an array `nums` into `k` sub-arrays such that the sum of each sub-array does not exceed the minimum value.
+
+**Binary Search:**
+The solution uses binary search to find the minimum possible value. Binary search is a divide-and-conquer algorithm that finds the position of a target value within a sorted array. In this case, the target value is the minimum possible value that can be used to split the array.
+
+**ispossible[mid, nums, k] function:**
+This function checks whether it's possible to split the array `nums` into `k` sub-arrays such that the sum of each sub-array does not exceed the value `mid`. It takes three parameters: `mid` (the current value being checked), `nums` (the input array), and `k` (the number of sub-arrays).
+
+1. `count` is set to 1 (initial sub-array count is 1).
+2. `currsum` is set to 0 (initial sum is 0).
+3. The function iterates through each element `a` in the array `nums`.
+4. If `a` exceeds `mid`, it returns `false` (i.e., it's not possible to split the array with the current value `mid`).
+5. If `currsum + a` exceeds `mid`, it sets `currsum` to `a` and increments `count` (i.e., starts a new sub-array).
+6. If `currsum + a` does not exceed `mid`, it adds `a` to `currsum` and returns `true` if `count` is less than or equal to `k`.
+
+**splitArray function:**
+This function takes an array `nums` and an integer `k` as input, and returns the minimum possible value that can be used to split the array.
+
+1. `left` is set to the maximum value in the array `nums` (i.e., the maximum possible value for the minimum possible value).
+2. `right` is set to the sum of all elements in the array `nums` (i.e., the maximum possible value for the minimum possible value).
+3. The function initializes `minans` to the maximum possible integer value.
+4. The function loops until `left` is less than or equal to `right`.
+5. In each iteration, it calculates the mid value as the average of `left` and `right`.
+6. It calls the `ispossible[mid, nums, k]` function to check whether it's possible to split the array with the current value `mid`.
+7. If `ispossible` returns `true`, it updates `minans` to `mid` and sets `right` to `mid - 1` to narrow the search range.
+8. The function returns the minimum possible value `minans` that can be used to split the array.
