@@ -1,0 +1,19 @@
+The given code is implementing the Fibonacci sequence using dynamic programming. 
+
+Here is a step-by-step explanation:
+
+1. A class named `Solution` is defined, which contains a method `fib` to calculate the `n`th Fibonacci number.
+
+2. In the `fib` method, the base case is handled by returning 0 when `n` is 0. This is because the 0th Fibonacci number is 0.
+
+3. Two integer variables `prevprev` and `prev` are initialized to 0 and 1, respectively. In the Fibonacci sequence, the first two numbers are 0 and 1.
+
+4. The method then enters a for loop that runs from `i=2` to `n`. This loop iterates `n-1` times to calculate the `n`th Fibonacci number.
+
+5. Inside the loop, the current Fibonacci number (`curr`) is calculated by adding the two previous Fibonacci numbers (`prevprev` and `prev`). This is the recursive formula of the Fibonacci sequence.
+
+6. The values of `prevprev` and `prev` are then updated to `prev` and `curr`, respectively. This is done to keep track of the previous two Fibonacci numbers for the calculation of the next one.
+
+7. After the loop finishes, the method returns the last calculated Fibonacci number (`prev`), which is the `n`th Fibonacci number.
+
+The time complexity of this method is O(n) and the space complexity is O(1), making it efficient for large values of `n`.
