@@ -1,0 +1,30 @@
+Here's a step-by-step explanation of the concept used in the given code:
+
+**Problem Statement:**
+The code is designed to compute the `n`-th Fibonacci number, where the Fibonacci sequence is defined as:
+
+F(0) = 0
+F(1) = 1
+F(n) = F(n-1) + F(n-2) for n > 1
+
+**Explanation:**
+
+1. The `fib` function is defined to compute the `n`-th Fibonacci number.
+
+2. The base case is handled by returning `0` when `n` is `0`, as per the Fibonacci sequence definition.
+
+3. Two integer variables `prevprev` and `prev` are initialized with the values `0` and `1`, respectively. These variables represent the last two Fibonacci numbers in the sequence.
+
+4. A `for` loop is used to iterate from `2` to `n` (inclusive). This is because the first two Fibonacci numbers are already handled in the base case.
+
+5. Inside the loop, a new variable `curr` is calculated by adding the previous two Fibonacci numbers (`prevprev` and `prev`). This is the key concept of the Fibonacci sequence.
+
+6. The values of `prevprev` and `prev` are updated by shifting the previous values. `prevprev` takes the value of the previous `prev` and `prev` takes the value of the newly calculated `curr`.
+
+7. Once the loop completes, the last calculated `prev` value represents the `n`-th Fibonacci number, which is returned by the `fib` function.
+
+**Time Complexity:**
+The time complexity of this algorithm is O(n), as it iterates `n` times to calculate the `n`-th Fibonacci number.
+
+**Space Complexity:**
+The space complexity is O(1), as it uses a constant amount of space to store the `prevprev` and `prev` variables, regardless of the input value `n`.
