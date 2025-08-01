@@ -1,0 +1,20 @@
+Here is a step-by-step explanation of the concept used in the given code:
+
+**Concept: Dynamic Programming and Memoization**
+
+The given code calculates the `n`-th Fibonacci number using dynamic programming and memoization. Here's a breakdown of the steps:
+
+1. **Base Case**: The function starts by checking if `n` is equal to 0. If it is, the function returns 0, as the 0th Fibonacci number is defined as 0.
+2. **Initialization**: Two integers, `prevprev` and `prev`, are initialized to 0 and 1, respectively. These variables will be used to store the previous two Fibonacci numbers.
+3. **Loop**: The function enters a loop that runs from `i=2` to `i=n`. This loop is used to calculate the `n`-th Fibonacci number.
+4. **Calculation**: Inside the loop, the function calculates the current Fibonacci number, `curr`, as the sum of the previous two Fibonacci numbers, `prevprev` and `prev`. This is done using the recurrence relation: `curr = prevprev + prev`.
+5. **Update**: After calculating the current Fibonacci number, the function updates `prevprev` and `prev` to `prev` and `curr`, respectively. This is done to store the previous two Fibonacci numbers for the next iteration.
+6. **Return**: When the loop finishes, the function returns the last calculated Fibonacci number, which is stored in `prev`.
+
+**Memoization**: The code uses memoization by storing the previous two Fibonacci numbers in `prevprev` and `prev`. This allows the function to reuse previously calculated values instead of recalculating them, which greatly improves performance.
+
+**Time Complexity**: The time complexity of this algorithm is O(n), as it requires a single pass through the range of Fibonacci numbers up to `n`.
+
+**Space Complexity**: The space complexity is O(1), as the function only requires a constant amount of space to store the previous two Fibonacci numbers.
+
+Overall, this code demonstrates a efficient and simple way to calculate the `n`-th Fibonacci number using dynamic programming and memoization.
