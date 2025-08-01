@@ -1,0 +1,29 @@
+Let's break down the code step by step:
+
+**What is the code doing?**
+
+The code is implementing a function to calculate the `n`-th Fibonacci number. The Fibonacci sequence is a series of numbers in which each number is the sum of the two preceding ones, usually starting with 0 and 1.
+
+**Step 1: Initialization**
+
+The function `fib` takes an integer `n` as input and initializes two integer variables: `prevprev` and `prev`. `prevprev` is set to 0 and `prev` is set to 1. These variables will be used to store the previous two numbers in the Fibonacci sequence.
+
+**Step 2: Loop**
+
+The function enters a loop that runs from `i=2` to `i=n`. Within the loop:
+
+* `curr` is calculated as the sum of `prevprev` and `prev`. This is the essence of the Fibonacci sequence: the next number is the sum of the previous two numbers.
+* `prevprev` is updated to be the previous value of `prev` (i.e., `prev` is moved one step backward).
+* `prev` is updated to be the new value of `curr`.
+
+**Step 3: Return**
+
+After the loop finishes, the function returns the value of `prev`, which is the `n`-th Fibonacci number.
+
+**Why does this implementation work?**
+
+By using the `prevprev` and `prev` variables, the function is keeping track of the previous two numbers in the Fibonacci sequence. At each iteration, it calculates the next number as the sum of the previous two, effectively moving the sequence forward by one step.
+
+By initializing `prevprev` to 0 and `prev` to 1, the function ensures that it starts with the correct values for the first two Fibonacci numbers. The loop then iteratively updates the values until it reaches the `n`-th number, which is returned as the result.
+
+This implementation has a time complexity of O(n), making it efficient for calculating large Fibonacci numbers.
