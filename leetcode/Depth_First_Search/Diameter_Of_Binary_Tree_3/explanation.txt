@@ -1,0 +1,19 @@
+Here's a step-by-step explanation of the concept used in the given code:
+
+**Concept:** The code computes the diameter of a binary tree, which is defined as the maximum path length between any two nodes in the tree. The diameter of a tree is not the same as its height, although the two are related.
+
+**Structure:** The code defines a `TreeNode` structure, which represents a node in the binary tree. Each node has three attributes: `val` (the node's value), `left` (a pointer to the left child node), and `right` (a pointer to the right child node).
+
+**Solution:** The `Solution` class has a single method `diameterOfBinaryTree` that takes a pointer to the root node of the binary tree as input and returns the diameter of the tree.
+
+**Helper Method:** The `helper` method is a recursive function that is used by the `diameterOfBinaryTree` method to compute the diameter of the tree. The `helper` method takes a pointer to a node as input and returns an integer value representing the maximum path length from the node to any leaf node.
+
+**Recursion:** The `helper` method uses recursion to traverse the binary tree. For each node, it recursively calls itself on the left and right child nodes. The method returns 1 plus the maximum of the path lengths from the left child and the right child node.
+
+**Maximum Path Length:** The `maxdiameter` variable stores the maximum path length found so far. The `helper` method updates this variable by taking the maximum of the current `maxdiameter` value and the sum of the path lengths from the left and right child nodes.
+
+**Return Value:** The `diameterOfBinaryTree` method returns the value stored in `maxdiameter`, which represents the diameter of the binary tree.
+
+**Time Complexity:** The time complexity of the `diameterOfBinaryTree` method is O(n), where n is the number of nodes in the binary tree. This is because each node is visited once during the recursive traversal.
+
+**Space Complexity:** The space complexity of the `diameterOfBinaryTree` method is O(h), where h is the height of the binary tree. This is because the recursive call stack can go up to a depth of h, which determines the maximum amount of memory used by the method.
