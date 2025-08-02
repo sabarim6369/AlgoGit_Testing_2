@@ -1,0 +1,31 @@
+Here is a step-by-step explanation of the concept used in the given code:
+
+**Step 1: Initialize the minimum value**
+
+The code initializes `min_val` to `LLONG_MAX`, which is the maximum value of a `long long` integer. This variable will store the minimum fruit value that needs to be swapped.
+
+**Step 2: Check if the count of each fruit is even**
+
+The code iterates over the `total_counts` map, which contains the count of each fruit. For each fruit, it checks if the count is odd by using the modulus operator (`%`). If a fruit count is odd, the code returns `-1`, indicating that it is not possible to distribute the fruits evenly.
+
+**Step 3: Find the minimum fruit value**
+
+The code updates `min_val` to be the minimum of the current value and the current fruit value. This ensures that `min_val` stores the smallest fruit value that needs to be swapped.
+
+**Step 4: Find the fruits that need to be swapped**
+
+The code iterates over the `total_counts` map again and creates a map `count1` that stores the count of each fruit in the first basket. It then calculates the difference between the count of each fruit in the first basket and half of the total count of that fruit.
+
+**Step 5: Add fruits to the swap list**
+
+The code adds the fruits that need to be swapped to a list `fruits_to_swap`. It uses a loop to add each fruit to the list `abs(diff)` times, where `diff` is the calculated difference.
+
+**Step 6: Sort the swap list**
+
+The code sorts the `fruits_to_swap` list in ascending order.
+
+**Step 7: Calculate the total cost**
+
+The code calculates the total cost of swapping the fruits. It does this by iterating over the `fruits_to_swap` list and adding the minimum of the current fruit value and twice the minimum value (`2 * min_val`) to the total cost. The code returns the total cost.
+
+The overall concept is to find the minimum fruit value that needs to be swapped, calculate the fruits that need to be swapped, and then calculate the total cost of swapping those fruits. The code uses various data structures such as maps and vectors to efficiently process the fruit counts and swapping process.
