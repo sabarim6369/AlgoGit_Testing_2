@@ -1,0 +1,15 @@
+Here's a step-by-step explanation of the concept used in the given code:
+
+**Problem Statement:** The problem is to divide an array of integers into k subsets such that the maximum sum of each subset is minimized.
+
+**Algorithm:**
+
+1. **Binary Search:** The algorithm uses binary search to find the minimum maximum sum (mid) that is possible to divide the array into k subsets.
+
+2. **ispossible Function:** This function checks whether it is possible to divide the array into k subsets such that the maximum sum of each subset is not more than mid. It initializes a count variable to 1 and a current sum variable to 0. Then, it iterates over the array. If the current element is more than mid, the function returns false because it is not possible to divide the array into k subsets with a maximum sum of mid. If the current sum plus the current element is more than mid, it increases the count and resets the current sum to the current element. Finally, if the current sum plus the current element is not more than mid, it returns true if the count is not more than k.
+
+3. **splitArray Function:** This function uses binary search to find the minimum maximum sum (mid) that is possible to divide the array into k subsets. It initializes left to the maximum element in the array and right to the sum of all elements in the array. Then, it enters a loop that continues until left is less than or equal to right. In each iteration, it calculates the mid as the average of left and right. If it is possible to divide the array into k subsets with a maximum sum of mid (checked by ispossible function), it updates the minimum answer as mid and moves the right pointer to mid - 1. Finally, it returns the minimum answer.
+
+**Time Complexity:** The time complexity of the algorithm is O(n log m) where n is the number of elements in the array and m is the maximum element in the array. This is because the algorithm uses binary search and the ispossible function iterates over the array once.
+
+**Space Complexity:** The space complexity of the algorithm is O(1) because it only uses a constant amount of space to store the count, current sum, left, right, and mid variables.
