@@ -1,0 +1,42 @@
+Here is a step-by-step explanation of the concept used in the given code:
+
+**Concept:** The concept used in this code is Depth First Search (DFS) traversal of a binary tree, specifically the approach is called Post-Order DFS.
+
+**Step-by-Step Explanation:**
+
+1. **TreeNode** structure: The provided code defines a structure for a binary tree node, which has three components: `val` (the value of the node), `left` (a pointer to the left child node), and `right` (a pointer to the right child node).
+
+2. **Solution Class:** This class has a public method `diameterOfBinaryTree` which calculates the diameter of a given binary tree. It uses a helper function `helper` to recursively traverse the tree.
+
+3. **diameterOfBinaryTree Method:**
+
+   - This method is called initially with the root node as an argument.
+   - It calls the helper function `helper` with the root node, and finally returns the maximum diameter calculated.
+
+4. **helper Method:** This method performs a post-order DFS traversal of the binary tree. 
+
+   - `helper(node)` is initially called with the root node as an argument.
+   - It returns the maximum diameter of a given subtree rooted at the current node.
+   - If the current node is `nullptr`, it returns 0 (since there is no diameter for an empty tree).
+   - Otherwise, it recursively calls `helper` for the left and right child nodes, calculates the maximum diameter of the left and right subtrees (`leftmax` and `rightmax`), and updates the maximum diameter found so far (`maxdiameter`).
+   - The maximum diameter is the maximum of the current maximum diameter and the sum of the maximum diameters of the left and right subtrees (`leftmax+rightmax`).
+   - It then returns the maximum diameter of the current subtree, which is the maximum of the maximum diameters of the left and right subtrees plus 1 (for the current node).
+
+5. **Tree Traversal:** The traversal order in the `helper` method is post-order (right subtree, left subtree, root), as illustrated below:
+
+```
+     1
+    / \
+   2   3
+  / \   \
+ 4   5   6
+```
+
+The `helper` method will traverse this tree as follows:
+
+- For the right subtree (3), it will recursively call `helper` with `3` as the argument.
+- For the left subtree (2), it will recursively call `helper` with `2` as the argument.
+- Then, it will return the maximum diameter of the current subtree (the maximum diameter of the left and right subtrees plus 1 for the current node).
+- It will return this maximum diameter to the previous call, and so on, until it reaches the root node, and finally returns the maximum diameter of the whole tree.
+
+**Diameter Calculation:** The diameter of a binary tree is the maximum distance between any two nodes in the tree. In the given code, it is calculated recursively by considering all combinations of paths between two nodes in the tree. The maximum diameter is updated in the `helper` method as it traverses the tree. Finally, the `diameterOfBinaryTree` method returns the maximum diameter found.
