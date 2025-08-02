@@ -1,0 +1,29 @@
+This code is used to find the diameter of a binary tree. The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
+
+Here's a step-by-step explanation of the concept:
+
+1. The `TreeNode` class is defined to represent a node in a binary tree. Each node has an integer value (`val`), a left child (`left`), and a right child (`right`).
+
+2. The `Solution` class is defined to solve the diameter of binary tree problem. It uses a helper function `helper` to calculate the diameter and a public function `diameterOfBinaryTree` to call the helper function and return the diameter.
+
+3. In the `helper` function, it traverses the binary tree in a depth-first manner (starting from the root node). For each node, it calculates the maximum diameter that can be calculated from the left and right subtrees of the current node. If a diameter calculated from the left or right subtree is greater than the current maximum diameter, the new diameter becomes the maximum diameter.
+
+4. It also calculates the longest path passing through the current node and stores it in `leftmax` and `rightmax`. The longest path passing through the current node is the longest path between its left child and right child.
+
+5. The function returns the maximum of the longest path passing through the current node (`1+max(leftmax, rightmax)`), which represents the maximum length of the path between the left child and the right child of a given node, and it recursively calls itself for the left and right subtrees of the current node to calculate their maximum diameter.
+
+6. In the `diameterOfBinaryTree` function, the `helper` function is called with the root node of the binary tree, and the maximum diameter calculated by the `helper` function is returned.
+
+Here is the pseudocode for the helper function:
+
+```
+function helper(node):
+    if node is null:
+        return 0
+    leftMax = helper(node.left)
+    rightMax = helper(node.right)
+    maxDiameter = max(maxDiameter, leftMax + rightMax)
+    return 1 + max(leftMax, rightMax)
+```
+
+In this pseudocode, `maxDiameter` stores the maximum diameter of the binary tree, `leftMax` is the maximum diameter of the left subtree, `rightMax` is the maximum diameter of the right subtree, and `1 + max(leftMax, rightMax)` is the maximum diameter of the current node.
