@@ -1,0 +1,25 @@
+Here is a step-by-step explanation of the given code:
+
+**Problem Statement:**
+The given code solves a problem where a list of numbers is given, and the task is to find the missing number in the sequence. The input list is a sequence of numbers from 0 to n, where n is a positive integer. One number in the sequence is missing.
+
+**Code Explanation:**
+
+1. `int n = arr.size() + 1;`:
+	* This line calculates the total number of elements (including the missing one) in the sequence. `arr.size()` gives the number of elements in the input list, and adding 1 accounts for the missing number.
+2. `int total = n * (n + 1) / 2;`:
+	* This line calculates the sum of all numbers from 0 to `n` (inclusive) using the formula for the sum of an arithmetic series: `n * (n + 1) / 2`. This is a mathematical formula to calculate the sum of consecutive integers.
+3. `int sum = 0;` and `for (int i = 0; i < arr.size(); ++i) { sum += arr[i]; }`:
+	* These lines iterate over the input list and calculate the sum of the numbers present in the list. The `sum` variable stores the sum of the numbers.
+4. `return total - sum;`:
+	* This line calculates the missing number by subtracting the sum of the present numbers (`sum`) from the total sum of all numbers in the sequence (`total`). The result is the missing number.
+
+**Example:**
+If the input list is `[0, 1, 2, 4]`, the missing number is `3`. Here's how the code works:
+
+1. `n` is calculated as `4` (since there are 4 numbers in the list, including the missing one).
+2. `total` is calculated as `10` using the formula `n * (n + 1) / 2`.
+3. The sum of the present numbers (`0 + 1 + 2 + 4 = 7`) is calculated.
+4. The missing number is calculated as `10 - 7 = 3`.
+
+The code efficiently calculates the missing number by using mathematical formulas and avoiding the need to iterate over the entire sequence.
