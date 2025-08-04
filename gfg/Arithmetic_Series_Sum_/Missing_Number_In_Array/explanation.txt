@@ -1,0 +1,23 @@
+Here's a step-by-step explanation of the concept used in the given code:
+
+The problem is to find the missing number from a sorted array of integers. The given array is missing one number, and the goal is to find that number.
+
+The approach used is based on the concept of the sum of arithmetic series. An arithmetic series is a sequence of numbers where each term is obtained by adding a fixed constant to the previous term.
+
+In the given code, the total number of elements including the missing one is calculated using the formula `n * (n + 1) / 2`, where `n` is the actual size of the array plus one. This formula is derived from the sum of the first `n` natural numbers, which is given by `1 + 2 + 3 + ... + n = n * (n + 1) / 2`.
+
+Next, the code calculates the sum of the actual numbers in the array using a simple loop. This sum is then subtracted from the total sum calculated above to find the missing number.
+
+Here's a step-by-step breakdown of the code:
+
+1. `int n = arr.size() + 1`: This line calculates the total number of elements including the missing one. Since the problem statement mentions that the array is missing one number, we add one to the size of the array to get the total number of elements.
+
+2. `int total = n * (n + 1) / 2`: This line calculates the sum of the first `n` natural numbers, which includes the missing number. This sum is used as a reference to find the missing number.
+
+3. `int sum = 0`: This line initializes a variable `sum` to zero. This variable will be used to calculate the sum of the actual numbers in the array.
+
+4. `for (int i = 0; i < arr.size(); ++i) { sum += arr[i]; }`: This loop calculates the sum of the actual numbers in the array. It iterates over each element in the array, adds it to the `sum` variable, and finally returns the sum.
+
+5. `return total - sum`: This line finds the missing number by subtracting the sum of the actual numbers from the total sum (which includes the missing number). The result is the missing number.
+
+The time complexity of this solution is O(n), where `n` is the size of the array, and the space complexity is O(1), as it only uses a constant amount of space.
