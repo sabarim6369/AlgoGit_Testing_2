@@ -1,0 +1,31 @@
+Here is a step-by-step explanation of the concept used in the given code:
+
+**Problem Statement:**
+The code is solving a problem where we are given an array of integers, and one of the integers is missing. The task is to find the missing integer.
+
+**Concept:**
+The concept used in this code is the formula for the sum of an arithmetic series. An arithmetic series is a sequence of numbers where each number is obtained by adding a fixed constant to the previous number. The formula for the sum of an arithmetic series is:
+
+`sum = n * (n + 1) / 2`
+
+where `n` is the total number of terms in the series.
+
+**Explanation:**
+
+1. `int n = arr.size() + 1;`
+   This line calculates the total number of elements in the array, including the missing one. The `size()` function returns the number of elements in the array, and `+ 1` is added to include the missing element in the total count.
+
+2. `int total = n * (n + 1) / 2;`
+   This line calculates the sum of an arithmetic series with `n` terms. Since it's an arithmetic series, the sum of all integers from 0 to `n` (inclusive) is calculated.
+
+3. `int sum = 0;`
+   This line initializes a variable `sum` to store the sum of the elements in the given array.
+
+4. `for (int i = 0; i < arr.size(); ++i) { sum += arr[i]; }`
+   This loop iterates over each element in the array and adds it to the `sum` variable.
+
+5. `return total - sum;`
+   This line calculates the missing number by subtracting the sum of the actual numbers in the array from the sum of all the numbers in the arithmetic series. The missing number is the difference between the two sums.
+
+**Example:**
+If the given array is `[0, 1, 2, 4, 5, 6, 7, 8, 9]`, the missing number is `3`. The total number of elements is 10 (including the missing one), and the sum of the actual numbers in the array is `0 + 1 + 2 + 4 + 5 + 6 + 7 + 8 + 9 = 42`. The sum of all the numbers in the arithmetic series with 10 terms is `10 * (10 + 1) / 2 = 55`. Therefore, the missing number is `55 - 42 = 3`.
