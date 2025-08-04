@@ -1,0 +1,29 @@
+Here's a step-by-step explanation of the concept used in the given code:
+
+**Problem Statement:** 
+The problem is to find the missing number in a sequence of consecutive integers. The sequence is represented as a vector `arr`. For example, if `arr = {0, 1, 2, 4}`, the missing number is `3`.
+
+**Mathematical Formula:** 
+The formula to calculate the sum of `n` consecutive integers is `n * (n + 1) / 2`. This formula is used to calculate the total sum of the sequence, assuming that all numbers are present.
+
+**Algorithm:**
+
+1. First, the total number of elements `n` is calculated by adding 1 to the size of the input array `arr`. This is because the array contains `arr.size()` elements, and we need to include the missing number in the calculation.
+
+2. Then, the total sum is calculated using the formula `n * (n + 1) / 2`. This formula gives the sum of all consecutive integers from `0` to `n`.
+
+3. Next, the sum of the actual numbers present in the array `arr` is calculated. This is done by iterating through the array and adding each number to a variable `sum`.
+
+4. Finally, the missing number is calculated by subtracting the sum of the actual numbers from the total sum. The missing number is the difference between the total sum and the sum of the actual numbers.
+
+**Code Explanation:**
+
+Here's a line-by-line explanation of the code:
+
+* `int n = arr.size() + 1;` calculates the total number of elements `n`, including the missing number.
+* `int total = n * (n + 1) / 2;` calculates the total sum using the formula.
+* `int sum = 0;` initializes a variable `sum` to zero, which will be used to store the sum of the actual numbers.
+* `for (int i = 0; i < arr.size(); ++i) { sum += arr[i]; }` iterates through the array and adds each number to the `sum`.
+* `return total - sum;` returns the missing number by subtracting the sum of the actual numbers from the total sum.
+
+This algorithm correctly identifies the missing number in the sequence, even if it is not at the end of the sequence.
