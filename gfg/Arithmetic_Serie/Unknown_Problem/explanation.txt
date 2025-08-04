@@ -1,0 +1,19 @@
+Here is a step-by-step explanation of the code:
+
+**Function**: `missingNum(vector<int>& arr)`
+
+**Input**: A vector of integers `arr` representing a sequence of numbers where one number is missing.
+
+**Output**: The missing number in the sequence.
+
+**Step-by-step explanation**:
+
+1. `int n = arr.size() + 1;`: Calculate the total number of elements in the sequence including the missing number. We add 1 to the size of the array `arr` because the missing number will make the actual total number of elements one more than the size of the array.
+2. `int total = n * (n + 1) / 2;`: Calculate the sum of the first `n` natural numbers using the formula for the sum of an arithmetic series: `n * (n + 1) / 2`. This formula gives us the total number of elements that should be in the array if no number is missing.
+3. `int sum = 0;`: Initialize a variable `sum` to keep track of the sum of the numbers in the array.
+4. `for (int i = 0; i < arr.size(); ++i) { sum += arr[i]; }`: Iterate through the array and calculate the sum of the numbers in the array.
+5. `return total - sum;`: Return the difference between the total number of elements calculated in step 2 and the sum of the numbers in the array calculated in step 4. This will give us the missing number.
+
+For example, if the input array is `[0, 1, 2, 4, 5]`, the total number of elements would be 6 (adding the missing number), and the sum of the numbers in the array is `0 + 1 + 2 + 4 + 5 = 12`. Since `6 * (6 + 1) / 2 = 15`, the missing number is `15 - 12 = 3`.
+
+This algorithm has a time complexity of O(n), where n is the size of the input array, because it iterates through the array once to calculate the sum. The space complexity is O(1) because it only uses a constant amount of space to store the variables.
