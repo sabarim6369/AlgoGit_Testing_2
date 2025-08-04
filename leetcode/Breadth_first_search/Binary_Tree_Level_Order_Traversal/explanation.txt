@@ -1,0 +1,29 @@
+Here's a step-by-step explanation of the given code:
+
+**Binary Tree Node Definition**
+
+The code defines a struct `TreeNode` for representing a node in a binary tree. Each node has three properties:
+- `val`: an integer value
+- `left`: a pointer to the left child node (initially set to `nullptr`)
+- `right`: a pointer to the right child node (initially set to `nullptr`)
+
+There are three constructor functions for `TreeNode`:
+- `TreeNode()`: a default constructor that initializes the node with a value of 0 and `left` and `right` set to `nullptr`
+- `TreeNode(int x)`: a constructor that initializes the node with a given value `x` and `left` and `right` set to `nullptr`
+- `TreeNode(int x, TreeNode* left, TreeNode* right)`: a constructor that initializes the node with a given value `x` and left and right child nodes `left` and `right`
+
+**Level Order Traversal of a Binary Tree**
+
+The `Solution` class has a function `levelOrder` that performs a level order traversal of a binary tree and returns the result in a 2D vector `result`.
+
+Here's a step-by-step explanation of the `levelOrder` function:
+1. Initialize an empty queue `q` and an empty 2D vector `result` to store the level order traversal result.
+
+2. Enqueue the root node of the binary tree into the queue `q` if it is not `nullptr`.
+
+3. While the queue is not empty, perform the following steps:
+   - Dequeue a node from the front of the queue `q` and push its value into a new vector `temp` in the `result` 2D vector.
+   - If the dequeued node has a left child, enqueue the child into the queue `q`.
+   - If the dequeued node has a right child, enqueue the child into the queue `q`.
+   
+The `levelOrder` function effectively performs a level order traversal of the binary tree by traversing each level from left to right and adding the node values to the `result` 2D vector.
