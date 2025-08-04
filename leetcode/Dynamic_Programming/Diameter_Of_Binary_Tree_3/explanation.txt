@@ -1,0 +1,46 @@
+Here's a step-by-step explanation of the given code:
+
+**TreeNode Class**
+
+The `TreeNode` class is a custom class to represent a node in a binary tree. It has three properties:
+
+* `val`: An integer value stored in the node.
+* `left`: A pointer to the left child node (default value is `nullptr`).
+* `right`: A pointer to the right child node (default value is `nullptr`).
+
+There are three constructors:
+
+* `TreeNode()`: Initializes the node with a value of 0 and sets both left and right child nodes to `nullptr`.
+* `TreeNode(int x)`: Initializes the node with a value of `x` and sets both left and right child nodes to `nullptr`.
+* `TreeNode(int x, TreeNode* left, TreeNode* right)`: Initializes the node with a value of `x` and sets the left and right child nodes to the provided pointers.
+
+**Solution Class**
+
+The `Solution` class contains a method to find the diameter of a binary tree.
+
+**diameterOfBinaryTree Method**
+
+* The `diameterOfBinaryTree` method takes a `TreeNode*` pointer to the root node of the binary tree as input.
+* It initializes a global variable `maxdiameter` to 0, which will store the maximum diameter found in the tree.
+* It calls the `helper` method, passing the root node as an argument.
+* The `helper` method returns the maximum diameter found in the tree.
+
+**Helper Method**
+
+* The `helper` method takes a `TreeNode*` pointer to a node as input.
+* If the node is `nullptr`, it returns 0.
+* Otherwise, it recursively calculates the maximum diameter of the right and left subtrees (denoted by `leftmax` and `rightmax`, respectively).
+* It updates the global `maxdiameter` variable with the maximum diameter found so far by taking the maximum of the current `maxdiameter` and `leftmax + rightmax`.
+* It returns the maximum height of the left and right subtrees by adding 1 to the maximum height of the subtrees.
+
+**Flow**
+
+Here's the flow of the code:
+
+1. The `diameterOfBinaryTree` method is called with a binary tree rooted at a specific node.
+2. The `helper` method is called recursively to traverse the binary tree starting from the root node.
+3. For each node, the `helper` method calculates the maximum diameter of the right and left subtrees and updates the `maxdiameter` variable.
+4. The `helper` method returns the maximum diameter found in the tree.
+5. The `diameterOfBinaryTree` method returns the final value of `maxdiameter`, which represents the maximum diameter of the binary tree.
+
+The time complexity of this algorithm is O(n), where n is the number of nodes in the binary tree. The space complexity is O(h), where h is the height of the binary tree, as the recursive call stack depth can go up to the height of the tree.
