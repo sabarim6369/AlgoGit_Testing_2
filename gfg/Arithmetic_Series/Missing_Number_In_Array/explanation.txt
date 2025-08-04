@@ -1,0 +1,21 @@
+Let's break down the code step by step:
+
+**Class and function declaration**
+
+The code defines a class named `Solution` with a public function `missingNum` that takes a vector of integers `arr` as input and returns an integer representing the missing number.
+
+**Variables and calculations**
+
+1. `n = arr.size() + 1`: The variable `n` is assigned the value of the size of the input array `arr` plus 1. This is because the problem statement assumes that there is a missing number in the array, and we need to consider the total number of elements (including the missing one).
+2. `total = n * (n + 1) / 2`: The variable `total` is calculated using the formula for the sum of the first `n` positive integers, which is `n * (n + 1) / 2`. This formula is used to calculate the sum of all integers from 1 to `n`.
+
+**Loop and sum calculation**
+
+1. `sum = 0`: The variable `sum` is initialized to 0.
+2. `for (int i = 0; i < arr.size(); ++i) { sum += arr[i]; }`: The loop iterates through the elements of the input array `arr` and adds each element to the `sum` variable.
+
+**Return statement**
+
+1. `return total - sum`: The function returns the difference between the calculated `total` value and the sum of the elements in the input array `arr`. The missing number is the value that, when added to the sum of the elements, would equal the total sum of all integers from 1 to `n`.
+
+The idea behind this code is to calculate the total sum of all integers from 1 to `n` (including the missing number) using the formula, and then subtract the sum of the elements in the input array (`arr`) to find the missing number.
