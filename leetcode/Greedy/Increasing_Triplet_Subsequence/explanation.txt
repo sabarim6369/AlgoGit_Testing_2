@@ -1,0 +1,110 @@
+Below is a line‑by‑line walk‑through of what this implementation does, together with the core idea that makes it work.
+
+```cpp
+class Solution {
+public:
+    bool increasingTriplet(vector<int>& nums) {
+        int first = INT_MAX, second = INT_MAX;          // Step 1
+        for (auto a : nums) {                           // Step 2
+            if (a <= first) {                           // Step 3
+                first = a;                              // Step 4
+            } else if (a <= second) {                   // Step 5
+                second = a;                             // Step 6
+            } else {                                    // Step 7
+                return true;                            // Step 8
+            }
+        }
+        return false;                                   // Step 9
+    }
+};
+```
+
+### Step 1 – Initialize two sentinel values
+```cpp
+int first = INT_MAX, second = INT_MAX;
+```
+- `first` will eventually hold the smallest value seen so far that could start a potential increasing triplet.
+- `second` will hold the smallest value that is strictly greater than `first`.  
+- Both are set to the maximum possible integer so that any real element of `nums` will be smaller and therefore replace them on the first iteration.
+
+### Step 2 – Iterate through the array
+The `for` loop goes over each element `a` in order. This single left‑to‑right pass is crucial for linear time complexity.
+
+### Step 3–4 – Update the smallest value (`first`)
+```cpp
+if (a <= first) {
+    first = a;
+}
+```
+- If the current element `a` is *smaller or equal* to the current `first`, then `a` becomes the new smallest element.
+- We use `<=` (not just `<`) so that equal values can be treated as “smaller” – the algorithm only cares about strict increase, so equal elements cannot contribute to a strictly increasing triplet.
+
+### Step 5–6 – Update the second smallest value (`second`)
+```cpp
+else if (a <= second) {
+    second = a;
+}
+```
+- This branch runs only if `a > first`.  
+- If `a` is *smaller or equal* to the current `second`, we replace `second` with `a`.  
+- Now `first < second` is guaranteed (unless `second` is still `INT_MAX`), and `second` is as small as possible given the elements seen so far that are greater than `first`.
+
+### Step 7–8 – Triplet found
+```cpp
+else {
+    return true;
+}
+```
+- If we reach this branch, then `a > second > first` holds.  
+- In other words, we have found three indices `i < j < k` such that `nums[i] < nums[j] < nums[k]`.  
+- Because the array is scanned in order, the indices are naturally increasing, so we can immediately return `true`.
+
+### Step 9 – No triplet
+If the loop completes without hitting the `return true`, it means that the array does not contain any strictly increasing subsequence of length three. Hence we return `false`.
+
+---
+
+## Core Concept: “Two Smallest Trackers”
+
+The algorithm’s intuition is:
+
+1. **Keep track of the two smallest values encountered so far that can serve as the first two elements of an increasing triplet.**
+2. When you see a number larger than both of those, you’ve found the third element.
+
+Why does this work?
+
+- **Monotonicity of indices:** We scan from left to right, so any number we see later in the array automatically has a larger index than all numbers seen before it.
+- **Optimality of the two smallest:**  
+  - `first` is always the smallest candidate for the first element of a triplet.  
+  - `second` is always the smallest candidate that is strictly larger than `first`.  
+  If a larger number can serve as a third element, it will be larger than `second`, and since `second` is the smallest possible “middle” element, the existence of *any* larger number guarantees an increasing triplet.
+- **Single pass & O(1) space:** Only two integer variables are maintained regardless of input size, making the solution linear in time and constant in space.
+
+---
+
+## Complexity Analysis
+
+- **Time:** `O(n)` – one pass through the array.  
+- **Space:** `O(1)` – only two extra integers (`first`, `second`).
+
+---
+
+## Illustrative Example
+
+Let `nums = [5, 1, 5, 2, 5, 3, 5]`.
+
+| i | a (nums[i]) | first | second | action |
+|---|-------------|-------|--------|--------|
+| 0 | 5           | 5     | INF    | first = 5 |
+| 1 | 1           | 1     | INF    | first = 1 |
+| 2 | 5           | 1     | 5      | second = 5 |
+| 3 | 2           | 1     | 2      | second = 2 |
+| 4 | 5           | 1     | 2      | a > second → **return true** |
+
+The algorithm stops at index 4, having found the triplet `(1, 2, 5)`.
+
+---
+
+### Bottom line
+
+The code implements a clever linear‑time check for an increasing triplet by maintaining just two running minima (`first` and `second`). Once a number larger than both is encountered, a valid triplet is guaranteed, and the function returns `true`. If the scan ends without such a number, it returns `false`.
