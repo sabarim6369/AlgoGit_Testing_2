@@ -1,0 +1,107 @@
+**Concept in a nutshell**
+
+The routine is a classic *two‑pointer (sliding‑window) technique* used to count all substrings of a string that contain **exactly three distinct characters**.  
+A “window” is defined by two indices – a left and a right pointer – that delimit a contiguous segment of the string.  
+While expanding the right pointer we keep track of how many different characters appear inside the window.  
+When the window contains exactly three distinct letters we know that **every** substring that starts at `left` and ends at any position from `right` to the end of the string also contains the same three letters.  
+That observation lets us add many substrings to the answer in one shot (`n - (right+1)`).
+
+Below is a detailed, step‑by‑step walk‑through of the algorithm as written in the snippet.
+
+---
+
+### 1.  Data structures & initial variables
+
+| Symbol | Meaning | Why it is needed |
+|--------|---------|------------------|
+| `n` | `s.size()` | The total length of the input string. |
+| `unordered_map<char,int> mp` | Frequency table of characters currently inside the window. | Allows us to know how many *distinct* characters the window contains (`mp.size()`) and to remove characters when the left pointer moves. |
+| `int left = 0` | Index of the left boundary of the window. | The start of the current window; will be advanced whenever we need to shrink the window. |
+| `int count = 0` | Running total of valid substrings found. | Final answer to return. |
+
+---
+
+### 2.  Expanding the window – the outer loop
+
+```cpp
+for (int right = 0; right < n; ++right) {
+    mp[s[right]]++;           // 1. add the new character at 'right'
+    ...
+}
+```
+
+* We iterate `right` from `0` to `n‑1`.  
+* At each step we **include** the character `s[right]` in the current window by incrementing its frequency in `mp`.
+
+After the inclusion we examine whether the window now contains **exactly three** distinct characters.
+
+---
+
+### 3.  Shrinking until the condition is satisfied – the inner `while`
+
+```cpp
+while (mp.size() == 3) {
+    ++count;                                    // 2. one new substring
+    count += n - (right + 1);                   // 3. all substrings ending after 'right'
+    --mp[s[left]];                              // 4. remove character at 'left'
+    if (mp[s[left]] == 0) mp.erase(s[left]);    // 5. cleanup if frequency drops to zero
+    ++left;                                     // 6. move left boundary rightward
+}
+```
+
+#### 3.1  Why `while (mp.size() == 3)`?  
+Because as long as the window contains exactly three distinct letters, *every* substring that starts at the current `left` and ends at a position **≥ right** satisfies the required property.  
+When the window’s distinct count goes above three, we cannot count any longer substrings that start at this `left`; we have to shrink the window.
+
+#### 3.2  The first `++count`
+
+When `mp.size() == 3`, the substring `s[left … right]` itself is a valid substring.  
+We add one to `count`.
+
+#### 3.3  The second `count += n - (right + 1)`
+
+All substrings that start at `left` and end at any index `k` with `k ≥ right` will contain the same set of three distinct characters.  
+The number of such substrings is exactly `n - (right + 1)` (the number of positions strictly to the right of `right`).  
+Instead of iterating over each of them, we add that number in one go.
+
+#### 3.4  Removing the leftmost character
+
+Now we want to try the next possible window that still has at most three distinct letters.  
+We therefore **shrink** the window from the left:
+
+1. Decrease the frequency of `s[left]`.  
+2. If its frequency becomes zero, erase it from the map (so `mp.size()` correctly reflects the distinct count).  
+3. Increment `left` to move the left boundary one step right.
+
+When the loop terminates, either the window has fewer than three distinct characters or we have moved `left` enough that the window no longer contains exactly three.
+
+---
+
+### 4.  Completing the pass
+
+The outer `for` loop continues to advance `right` and repeats the above process.  
+Because each character is inserted into `mp` once and removed once, the algorithm runs in **O(n)** time with **O(1)** additional memory (the map holds at most 26 entries for lowercase English letters).
+
+---
+
+### 5.  Final result
+
+After the loop finishes, `count` holds the number of substrings that contain **exactly three distinct characters**.  
+The function returns this value:
+
+```cpp
+return count;
+```
+
+---
+
+#### Quick recap
+
+1. **Expand** the window to the right, adding characters to a frequency map.  
+2. **While** the window has exactly 3 distinct letters:  
+   * Count the current substring.  
+   * Add all longer substrings that end after the current `right`.  
+   * Shrink the window from the left until the distinct count is no longer 3.  
+3. Continue expanding until the end of the string.  
+
+The key insight is that once a window has exactly three distinct letters, **every** longer window that starts at the same left index remains valid—allowing us to count many substrings in a single arithmetic addition. This is the essence of the sliding‑window counting technique employed here.
