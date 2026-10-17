@@ -1,0 +1,100 @@
+Below is a **step‑by‑step explanation** of what the query does, why it is written the way it is, and the key PostgreSQL concepts it uses.
+
+---
+
+## 1. Identify the tables and give them short aliases  
+
+```sql
+Employees e1
+EmployeeUNI   AS e2
+```
+
+* **`Employees`** – the “main” table that holds employee records.  
+* **`EmployeeUNI`** – a related table that stores an employee’s unique identifier (`unique_id`).  
+* **`e1`** and **`e2`** are *aliases* (short names) for these tables.  
+  * Aliases make column references shorter (`e1.name` instead of `Employees.name`).
+  * In PostgreSQL the keyword `AS` is optional, so you could write `EmployeeUNI e2`.
+
+---
+
+## 2. Choose the type of join: `LEFT JOIN`
+
+```sql
+LEFT JOIN EmployeeUNI AS e2 ON e2.id = e1.id
+```
+
+* A **left join** returns **all rows from the left table** (`Employees`) and, when there is a matching row in the right table (`EmployeeUNI`), it returns the matching data as well.  
+* If no match exists in `EmployeeUNI`, the columns from `e2` become `NULL`.  
+* This is opposed to an `INNER JOIN`, which would keep only rows that have a match in *both* tables.
+
+**Why a LEFT JOIN?**  
+If every employee should appear in the result list even when they don’t yet have a `unique_id` in `EmployeeUNI`, a left join guarantees that.
+
+---
+
+## 3. Specify the join condition
+
+```sql
+ON e2.id = e1.id
+```
+
+* The condition tells PostgreSQL how to match rows from the two tables.  
+* It says: “for each employee, find the row in `EmployeeUNI` where the `id` column is the same.”  
+* If you don’t provide a join condition, PostgreSQL would attempt a **cross join** (Cartesian product), which is rarely what you want.
+
+---
+
+## 4. Define what columns to return
+
+```sql
+SELECT e2.unique_id, e1.name
+```
+
+* The `SELECT` list is the output of the query.  
+* We are pulling two pieces of data:
+  1. `unique_id` from the `EmployeeUNI` table (aliased as `e2`).  
+  2. `name` from the `Employees` table (aliased as `e1`).  
+
+Because we used a left join, `e2.unique_id` will be `NULL` for employees that have no corresponding record in `EmployeeUNI`.
+
+---
+
+## 5. What the entire query does
+
+1. **Start** with every row in `Employees`.  
+2. **Attempt** to attach a matching row from `EmployeeUNI` on the basis of `id`.  
+3. **Return** the employee’s name and the matched `unique_id` (or `NULL` if no match).  
+
+The resulting table contains one row per employee, always showing the employee’s name and, when available, their unique identifier.
+
+---
+
+## 6. Quick recap of the core concepts
+
+| Concept | Purpose | How it appears in the query |
+|---------|---------|-----------------------------|
+| **Table aliases** (`e1`, `e2`) | Simplify column references and improve readability | `Employees e1`, `EmployeeUNI AS e2` |
+| **LEFT JOIN** | Preserve all rows from the left side, include matched rows from the right | `LEFT JOIN EmployeeUNI AS e2` |
+| **ON clause** | Define the matching logic between tables | `ON e2.id = e1.id` |
+| **SELECT list** | Specify which columns to output | `SELECT e2.unique_id, e1.name` |
+
+---
+
+## 7. Optional tweaks
+
+* **Ordering** – add `ORDER BY e1.name` if you want the results alphabetically.  
+* **Filtering** – add a `WHERE` clause to restrict to, say, employees in a particular department.  
+* **Handling NULLs** – use `COALESCE(e2.unique_id, 'N/A')` if you want a placeholder instead of `NULL`.
+
+---
+
+### Final Query (unchanged)
+
+```sql
+SELECT e2.unique_id, e1.name
+FROM Employees e1
+LEFT JOIN EmployeeUNI AS e2
+  ON e2.id = e1.id;
+```
+
+That’s the whole story: a left join pulling together two related tables, using aliases for brevity, and selecting just the columns you care about.
