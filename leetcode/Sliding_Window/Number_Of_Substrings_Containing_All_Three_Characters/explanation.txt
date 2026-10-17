@@ -1,0 +1,104 @@
+Below is a **step‑by‑step walk‑through of the algorithmic idea that the snippet implements**.  
+The code is a classic “sliding window” solution that uses a hash map (unordered_map) to keep track of how many times each character appears inside the current window.  
+The window is defined by two indices:
+
+| Symbol | Meaning |
+|--------|---------|
+| `left` | beginning of the window (inclusive) |
+| `right`| end of the window (inclusive) |
+
+The goal of the algorithm is to **count all substrings that contain at least three distinct characters** (the same idea works for “exactly three” or “at most three” with a small tweak).  
+Let’s see how each part of the code contributes to that.
+
+---
+
+## 1.  Initialization
+
+```cpp
+int n = s.size();                // length of the string
+unordered_map<char, int> mp;     // frequency of characters in the window
+int left = 0;                    // left bound of the window
+int count = 0;                   // total number of valid substrings found
+```
+
+* `mp` stores how many times each character appears between `left` and `right`.  
+* `count` will accumulate the final answer.
+
+---
+
+## 2.  Expanding the window (right pointer)
+
+```cpp
+for (int right = 0; right < n; right++) {
+    mp[s[right]]++;              // include the new character
+```
+
+* For every new `right`, we add `s[right]` to the window and update its frequency.  
+* After this step the window is `[left, right]`.
+
+---
+
+## 3.  When the window contains **three** distinct letters
+
+```cpp
+    while (mp.size() == 3) {     // window has exactly 3 different chars
+```
+
+* `mp.size()` tells us how many distinct characters are currently in the window.  
+* The `while` loop is executed **as long as we have exactly three distinct letters**.  
+  (If you want *at least* three distinct letters, this condition would be `>= 3`.)
+
+Inside the loop we count all substrings that start at `left` and end at any position **from `right` to the end of the string**. Why? Because once the window already has 3 distinct letters, **every longer substring that starts at the same `left` will also have at least 3 distinct letters** (adding more characters cannot reduce the number of distinct letters).
+
+---
+
+## 4.  Counting the valid substrings
+
+```cpp
+        count++;                   // the substring [left, right] itself
+        count += n - (right + 1);  // all longer substrings starting at 'left'
+```
+
+* `count++` counts the current window `[left, right]`.
+* `n - (right + 1)` is the number of possible ending positions after `right` (i.e., `right+1, right+2, …, n-1`).  
+  All these substrings `[left, right+1]`, `[left, right+2]`, …, `[left, n-1]` are also valid, so we add them in one shot.
+
+---
+
+## 5.  Shrinking the window (moving `left`)
+
+```cpp
+        mp[s[left]]--;                 // remove leftmost character
+        if (mp[s[left]] == 0) {
+            mp.erase(s[left]);          // remove it entirely if count is 0
+        }
+        left++;                         // move left boundary forward
+```
+
+* We drop the character at position `left` from the window.  
+* If its frequency drops to zero, we erase its entry from the map so that `mp.size()` reflects the true number of distinct characters.  
+* Increment `left` to try the next possible starting position.
+
+Because the `while` loop only runs while we have exactly 3 distinct characters, after removing the leftmost character the window will either:
+* still have 3 distinct characters – the loop runs again and counts more substrings, or  
+* have fewer than 3 distinct characters – the loop terminates and the outer `for` loop continues expanding the window.
+
+---
+
+## 6.  Result
+
+After the outer loop finishes, `count` contains **the number of substrings that contain at least (or exactly, depending on the condition) three distinct characters**.  
+The function simply returns this value.
+
+---
+
+### Quick Example
+
+Let `s = "abca"` (n = 4)
+
+| Step | left | right | mp (char:freq) | mp.size() | count |
+|------|------|-------|----------------|-----------|-------|
+| 1    | 0    | 0     | a:1            | 1         | 0     |
+| 2    | 0    | 1     | a:1, b:1       | 2         | 0     |
+| 3    | 0    | 2     | a:1, b:1, c:1  | 3         | 0 → *enter while* |
+| 3a   | 0    | 2     | a:1, b:1, c:1  | 3         | 1 (for [0,2
