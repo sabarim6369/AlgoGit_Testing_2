@@ -1,0 +1,80 @@
+Below is a **step‑by‑step walkthrough** of the idea behind the code you posted.  
+It implements the classic “Three Sum” algorithm (LeetCode 15), which finds **all unique triplets** in an integer array that add up to zero.
+
+---
+
+## 1.  Problem Recap
+Given an integer array `nums`, find **every** distinct combination of three numbers `(a, b, c)` such that  
+`a + b + c == 0`.  
+The output must contain each triplet only once – order inside a triplet and the order of triplets in the result do not matter.
+
+---
+
+## 2.  High‑Level Strategy
+
+1. **Sort the array** – this places all equal numbers next to each other and turns the problem into a search for two numbers that, together with a chosen first number, sum to a target (`-nums[i]`).  
+2. **Two‑pointer scan** – for every fixed first element `nums[i]`, use two indices (`left` and `right`) that move inward from the ends of the remaining sub‑array.  
+3. **Skip duplicates** – because the array is sorted, identical numbers are adjacent. We skip them to avoid duplicate triplets.  
+4. **Store results uniquely** – a `set` (or the usual “skip duplicates” technique) guarantees that each triplet appears only once.
+
+---
+
+## 3.  Step‑by‑Step Execution
+
+| Step | What Happens | Why It Matters |
+|------|--------------|----------------|
+| **0. Sort `nums`** | `sort(nums.begin(), nums.end());` | Sorting brings equal numbers together, enabling efficient duplicate skipping and two‑pointer logic. |
+| **1. Initialize storage** | `set<vector<int>> st;` | The set will hold the unique triplets. The vector inside the set keeps the triplet in non‑decreasing order. |
+| **2. Main loop over first element** | `for (int i = 0; i < n - 2; ++i) { ... }` | We need at least two numbers after `i` to form a triplet, hence `n-2`. |
+| **2a. Optional duplicate‑skip for `i`** | (Not shown but often written as) `if (i>0 && nums[i]==nums[i-1]) continue;` | Prevents starting with the same first number multiple times. |
+| **3. Set two pointers** | `int left = i+1; int right = n-1;` | `left` starts just after the first number, `right` starts at the array’s end. |
+| **4. While left < right** | `while (left < right) { ... }` | The inner loop moves pointers toward each other, examining all candidate pairs. |
+| **5. Compute sum of the three numbers** | `int sum = nums[i] + nums[left] + nums[right];` | Check if the triplet hits the target (zero). |
+| **6. Three cases for `sum`** |  |
+| 6a. `sum == 0` | *Triplet found.* <br>`st.insert({nums[i], nums[left], nums[right]});` <br>Move both pointers to search for other pairs: `++left; --right;` | Adds the triplet to the result set and keeps searching. |
+| 6b. `sum < 0` | `++left;` | Increasing `left` (moving to a larger number) can only raise the sum because the array is sorted. |
+| 6c. `sum > 0` | `--right;` | Decreasing `right` (moving to a smaller number) can only lower the sum. |
+| **7. Optional duplicate‑skip inside loop** | (Not in the snippet but commonly) <br>`while (left<right && nums[left]==nums[left-1]) ++left;` <br>`while (left<right && nums[right]==nums[right+1]) --right;` | Avoids counting the same second/third element twice. |
+| **8. After loops** | Convert `st` into the required return type: `<br>vector<vector<int>> ans(st.begin(), st.end());` | The set’s iterator order is irrelevant; the problem accepts any order of triplets. |
+| **9. Return the answer** | `return ans;` | End of function. |
+
+---
+
+## 4.  Why This Works
+
+1. **Sorting + Two Pointers**  
+   * After sorting, all numbers on the left of `right` are ≤ `nums[right]`.  
+   * If the sum is too small, increasing `left` raises the sum; if too big, decreasing `right` lowers it.  
+   * Thus each pair `(left, right)` is examined exactly once per `i`, yielding an **O(n²)** algorithm.
+
+2. **Duplicate Avoidance**  
+   * Because equal numbers are adjacent, skipping over them after a match guarantees that each unique combination is added only once.  
+   * The `set` acts as a safety net: even if a duplicate slips through, the set will collapse it to a single entry.
+
+3. **Correctness**  
+   * Every possible triplet is considered because for each `i`, all combinations of numbers after `i` are tested by moving `left` and `right`.  
+   * No valid triplet is missed, and no invalid triplet is reported (we only insert when the sum is exactly zero).
+
+---
+
+## 5.  Complexity Analysis
+
+| Measure | Result |
+|---------|--------|
+| Time | **O(n²)** – the outer loop runs *n* times, inner two‑pointer loop runs *O(n)* per iteration. |
+| Space | **O(n)** additional for the set (worst‑case all triplets are unique). |
+| Sorting | **O(n log n)** – dominates the overall time but is still subsumed by the quadratic part. |
+
+---
+
+## 6.  Common Variations
+
+* **Using a vector and explicit duplicate skipping** instead of a set, which can be slightly faster and uses less memory.  
+* **Early exit** – if `nums[i] > 0` after sorting, all later numbers are ≥ `nums[i]`, so the sum cannot be zero; break the loop.  
+* **Handling negative/positive ranges** – the algorithm naturally handles any integer values because of the sorting and pointer adjustments.
+
+---
+
+## 7.  Take‑away
+
+The key concept is the **combination of sorting with the two‑pointer technique** to transform an otherwise cubic brute‑force search into an efficient quadratic one, while using either a `set` or duplicate‑skipping logic to guarantee uniqueness of the reported triplets. This pattern is common in many “k‑sum” problems and is a staple technique in competitive programming and coding interviews.
