@@ -1,0 +1,1 @@
+Error calling Groq API: 404 Not Found on POST request for "https://api.groq.com/openai/v1/chat/completions": "{"error":{"message":"The model `llama-3.1-8b-instant` does not exist or you do not have access to it.","type":"invalid_request_error","code":"model_not_found"}}<EOL>"
