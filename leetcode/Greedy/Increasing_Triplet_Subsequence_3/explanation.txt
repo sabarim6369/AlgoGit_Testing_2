@@ -1,0 +1,59 @@
+**Concept Overview**
+
+The function `increasingTriplet` checks whether an array contains an increasing subsequence of length 3  
+(“triplet”) – i.e. three indices `i < j < k` such that `nums[i] < nums[j] < nums[k]`.  
+The code uses a *greedy* strategy that keeps track of only the two smallest numbers seen so far that
+could serve as the first and second elements of such a triplet.  
+If a third number is found that is larger than both of them, we are guaranteed that a triplet exists.
+
+---
+
+### Step‑by‑step Walkthrough
+
+| Step | Code | What Happens | Why It Works |
+|------|------|--------------|--------------|
+| 1 | `int first=INT_MAX, second=INT_MAX;` | Initialise two placeholders for the smallest (`first`) and the second smallest (`second`) numbers seen so far. They start at the maximum possible integer so that any number in the array will replace them. | Having the *smallest* possible values guarantees that as soon as we find a number larger than both, it must be part of an increasing sequence. |
+| 2 | `for(auto a: nums){` | Iterate over each element `a` of the input vector `nums` in order. | We need to examine every element because the triplet can start at any position. |
+| 3 | `if(a <= first){ first = a; }` | If the current number `a` is **not greater** than the current smallest (`first`), update `first` to `a`. | This ensures `first` always holds the minimal value encountered up to the current point. Any number less than or equal to the current `first` can *replace* it because it gives us a better (smaller) candidate for the first position of a triplet. |
+| 4 | `else if(a <= second){ second = a; }` | If `a` is greater than `first` but not greater than `second`, update `second` to `a`. | `second` represents the smallest number that is **larger** than `first`. We keep it as small as possible so that any later number has the highest chance of exceeding both. |
+| 5 | `else{ return true; }` | If `a` is larger than both `first` and `second`, we have found `first < second < a`. Return `true`. | At this moment we have identified a valid increasing triplet: the earlier two numbers are `first` and `second`, and the current `a` is the third. Because we processed the array sequentially, the indices automatically satisfy `i < j < k`. |
+| 6 | `}` | End of the loop. | If we finish scanning the entire array without triggering the `else`, no such triplet exists. |
+| 7 | `return false;` | Return `false` when no increasing triplet was found. | Completes the function. |
+
+---
+
+### Why This Works
+
+- **Greedy Correctness**:  
+  The algorithm always keeps the *smallest possible* `first` and the smallest possible `second` that is still larger than `first`.  
+  Suppose we eventually encounter a number `x` that is larger than both. Because `first` and `second` were chosen as the smallest such candidates up to that point, the indices of `first`, `second`, and `x` naturally form an increasing triplet.  
+
+- **Time Complexity**:  
+  One pass over the array → **O(n)** time.
+
+- **Space Complexity**:  
+  Only two integer variables → **O(1)** auxiliary space.
+
+---
+
+### Intuition Behind the Greedy Choices
+
+1. **Keeping the smallest `first`**  
+   If we have a smaller `first`, it gives us *more* room for later numbers to be larger than it.  
+   If we ever see a number smaller than the current `first`, we can safely replace `first` because any future number that was larger than the old `first` will also be larger than the new (smaller) `first`.
+
+2. **Keeping the smallest `second` that is larger than `first`**  
+   Among all numbers that could serve as the second element of an increasing triplet, we want the *smallest* one.  
+   A smaller `second` again gives us a higher chance for a later number to be larger than both.
+
+3. **Immediate detection of a triplet**  
+   As soon as a number is found that is larger than both `first` and `second`, we are guaranteed that a triplet exists; there is no need to continue scanning.
+
+---
+
+### Summary
+
+The code implements a **single‑pass greedy algorithm** that tracks the two minimal values (`first` and `second`) that could start an increasing triplet.  
+When a third value larger than both is encountered, the function returns `true`.  
+Otherwise, after examining all elements, it returns `false`.  
+This approach runs in linear time with constant extra space, making it optimal for this problem.
