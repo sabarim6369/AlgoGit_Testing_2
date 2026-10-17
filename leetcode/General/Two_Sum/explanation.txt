@@ -1,0 +1,30 @@
+**Step‑by‑step walk‑through of the algorithm**
+
+The goal is to find two indices `i` and `j` in the array `nums` such that  
+`nums[i] + nums[j] == target`, and return those indices.  
+The code achieves this in linear time by using an **unordered map** (hash table) to remember the numbers we have already seen.
+
+| Step | What the code does | Why it’s useful |
+|------|-------------------|-----------------|
+| **1. Create a map** <br> `unordered_map<int, int> mp;` | The map’s key is a number from the array, and the value is the index at which it appears. | Allows constant‑time lookup: we can quickly check if a needed complement already exists. |
+| **2. Loop through each element** <br> `for (int i = 0; i < nums.size(); ++i)` | We examine every element exactly once. | Guarantees we consider all possible pairs. |
+| **3. Compute the complement** <br> `int toFind = target - nums[i];` | The number we would need to add to `nums[i]` to reach the target. | If we have already seen `toFind`, we have found a valid pair. |
+| **4. Check if the complement is in the map** <br> `if (mp.find(toFind) != mp.end())` | `mp.find()` returns an iterator; if it’s not `end()` we found a match. | O(1) check thanks to the hash table. |
+| **5. Return the indices** <br> `return { mp[toFind], i };` | The map holds the earlier index of `toFind`; `i` is the current index. | We output the solution immediately, stopping further work. |
+| **6. Store the current number** <br> `mp[nums[i]] = i;` | Record the current number and its index for future look‑ups. | Prepares the map for upcoming iterations. |
+| **7. End of loop** | If no pair is found after checking all elements, return an empty vector: `return {};` | Indicates failure (though for the LeetCode problem a solution is always guaranteed). |
+
+### Why this works
+
+- **One pass**: Each element is processed once; we never need a second pass or nested loops.
+- **Constant‑time complement search**: The hash map gives us `O(1)` average lookup time.
+- **Correctness**: For any index `i`, if a matching index `j` exists, the complement `target - nums[i]` will have been inserted into the map *before* we reach `i`, because the map is updated after the check.
+
+### Complexity
+
+- **Time**: `O(n)` – we iterate over `n` elements once, with `O(1)` operations inside the loop.
+- **Space**: `O(n)` – in the worst case we store every element in the map.
+
+---
+
+**In summary**: The code uses a hash table (`unordered_map`) to remember previously seen numbers and their indices. While iterating through the array, it checks whether the required complement of the current number already exists in the map. If it does, the corresponding indices form the solution. This approach turns the naive `O(n²)` search into an efficient `O(n)` solution.
