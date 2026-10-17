@@ -1,0 +1,106 @@
+**Goal of the function**
+
+Given a string `s` the function `numberOfSubstrings` returns the number of **contiguous substrings that contain exactly three distinct characters**.
+
+---
+
+## 1. Core idea – the “sliding window”
+
+A *window* is a contiguous part of the string defined by two indices:  
+`left` – the first character of the window,  
+`right` – the last character of the window (inclusive).
+
+The window is expanded one character at a time (`right++`).  
+While the window contains exactly three distinct characters we can safely
+*count* all substrings that start at `left` and end anywhere from `right`
+to the end of the string – they all keep at least three distinct letters.
+
+When the window has **more than three** distinct letters we move `left`
+forward until the distinct‑letter count goes back to three or fewer.
+
+This is the classic “two‑pointer” or “sliding window” pattern.
+
+---
+
+## 2. Data structure – `unordered_map<char,int> mp`
+
+`mp` keeps the frequency of each character **inside the current window**.
+
+* `mp[s[right]]++` – add the new character to the window.  
+* `mp[s[left]]--` – remove a character when the window shrinks.  
+* `mp.erase(ch)` – delete an entry whose frequency drops to zero.
+
+Because we only need the *number* of distinct characters, we can look at
+`mp.size()` – the size of the map is the count of distinct letters.
+
+---
+
+## 3. Counting logic inside the `while (mp.size() == 3)` loop
+
+When the window contains exactly three distinct letters we have found a
+“minimal” window that satisfies the condition.  
+From this point on, any longer window that starts at the same `left`
+and extends to the right will **always** contain at least those three
+letters (adding more characters cannot reduce the distinct‑letter count).
+Hence:
+
+1. **Count the minimal window itself** – `count++`.  
+2. **Count all extensions of this window** – every substring that starts
+   at `left` and ends at any index `k` where `right ≤ k < n` also has
+   exactly three distinct letters.  
+   There are `n - (right + 1)` such substrings, so we add that to `count`.
+
+   ```cpp
+   count += n - (right + 1);
+   ```
+
+3. **Move the left side forward** to look for the next window that
+   still has three distinct letters:
+   * Decrease the frequency of `s[left]`.  
+   * If it becomes zero, erase that entry (reducing the distinct count).  
+   * Increment `left`.
+
+The `while` loop continues until the window no longer contains exactly
+three distinct characters – it may contain two or fewer, or it may
+overflow to four (which will be handled by shrinking further in the next
+iteration of the outer `for` loop).
+
+---
+
+## 4. Step‑by‑step walk‑through (example `s = "abcba"`)
+
+| step | `right` | char added | `mp` (freq) | `mp.size()` | action inside `while` | `count` | `left` |
+|------|---------|------------|-------------|-------------|-----------------------|---------|--------|
+| 1 | 0 | 'a' | a:1 | 1 | – | 0 | 0 |
+| 2 | 1 | 'b' | a:1, b:1 | 2 | – | 0 | 0 |
+| 3 | 2 | 'c' | a:1, b:1, c:1 | 3 | **enter** | `count++` → 1; `count += 5-3 = 2` → 3; shrink left: a removed → left=1 | 1 |
+| 4 | 3 | 'b' | b:2, c:1 | 2 | – | 3 | 1 |
+| 5 | 4 | 'a' | b:2, c:1, a:1 | 3 | **enter** | `count++` → 4; `count += 5-5 = 0` → 4; shrink left: b decreased to 1 → left=2 | 2 |
+
+Final result: `count = 4`.  
+The substrings are: `"abc"`, `"abcb"`, `"abcba"`, `"cba"` – all contain
+exactly three distinct characters.
+
+---
+
+## 5. Complexity analysis
+
+*Each character is added to the window once and removed at most once*.
+
+* **Time complexity:**  
+  `O(n)` – `n` is the length of the string.
+
+* **Space complexity:**  
+  `O(1)` – the map holds at most the distinct characters of the
+  alphabet (26 for lowercase letters), i.e. constant space.
+
+---
+
+## 6. Take‑away
+
+The function is a textbook example of the *sliding window* technique:
+maintain a window with a fixed property (exactly 3 distinct letters), use
+a hash map to keep track of frequencies, and count all qualifying
+sub‑windows in constant time per step. The key trick is adding  
+`n - (right + 1)` to count all extensions of the current minimal window
+at once.
